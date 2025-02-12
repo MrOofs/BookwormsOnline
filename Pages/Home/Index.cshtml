@@ -1,0 +1,36 @@
+﻿@page
+@model BookwormsOnline.Pages.IndexModel
+@{
+    ViewData["Title"] = Model.IsAuthenticated ? "Your Account" : "Welcome to Bookworms Online";
+}
+
+@if (Model.IsAuthenticated)
+{
+    <h2>Welcome, @Model.FirstName @Model.LastName</h2>
+    <div>
+        @if (!string.IsNullOrEmpty(Model.PhotoPath))
+        {
+            <img src="@Model.PhotoPath" alt="User Photo" style="max-width:200px;" />
+        }
+    </div>
+    <ul>
+        <li><strong>Email:</strong> @Model.Email</li>
+        <li><strong>Mobile No:</strong> @Model.MobileNo</li>
+        <li><strong>Billing Address:</strong> @Model.BillingAddress</li>
+        <li><strong>Shipping Address:</strong> @Model.ShippingAddress</li>
+        <li><strong>Credit Card Number:</strong> @Model.CreditCardNumber</li>
+    </ul>
+}
+else
+{
+    <div class="jumbotron">
+        <h1 class="display-4">Welcome to Bookworms Online!</h1>
+        <p class="lead">Discover our collection of books and join our membership service to enjoy exclusive benefits.</p>
+        <hr class="my-4" />
+        <p>Please login or register to access your personalized account.</p>
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" asp-page="/Account/Login" role="button">Login</a>
+            <a class="btn btn-secondary btn-lg" asp-page="/Account/Register" role="button">Register</a>
+        </p>
+    </div>
+}

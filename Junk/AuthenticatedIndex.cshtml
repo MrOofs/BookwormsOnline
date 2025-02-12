@@ -1,0 +1,26 @@
+﻿@model BookwormsOnline.Controllers.HomeViewModel
+@{
+    ViewData["Title"] = "Your Account";
+}
+
+<h2>Welcome, @Model.FirstName @Model.LastName</h2>
+
+<div>
+    @if (!string.IsNullOrEmpty(Model.PhotoPath))
+    {
+        <img src="@Model.PhotoPath" alt="User Photo" style="max-width:200px;" />
+    }
+</div>
+
+<ul>
+    <li><strong>Email:</strong> @Model.Email</li>
+    <li><strong>Mobile No:</strong> @Model.MobileNo</li>
+    <li><strong>Billing Address:</strong> @Model.BillingAddress</li>
+    <li><strong>Shipping Address:</strong> @Model.ShippingAddress</li>
+    <li><strong>Credit Card Number:</strong> @Model.CreditCardNumber</li>
+</ul>
+
+<a asp-controller="Account" asp-action="ChangePassword">Change Password</a> |
+<form asp-controller="Account" asp-action="Logout" method="post" style="display:inline;">
+    <button type="submit" class="btn btn-link">Logout</button>
+</form>

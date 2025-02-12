@@ -1,0 +1,130 @@
+﻿@page
+@model BookwormsOnline.Pages.RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h2>Register</h2>
+
+<form method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <!-- First Name -->
+    <div class="form-group">
+        <label asp-for="Input.FirstName"></label>
+        <input asp-for="Input.FirstName" class="form-control" />
+        <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+    </div>
+    <!-- Last Name -->
+    <div class="form-group">
+        <label asp-for="Input.LastName"></label>
+        <input asp-for="Input.LastName" class="form-control" />
+        <span asp-validation-for="Input.LastName" class="text-danger"></span>
+    </div>
+    <!-- Credit Card Number -->
+    <div class="form-group">
+        <label asp-for="Input.CreditCardNo"></label>
+        <input asp-for="Input.CreditCardNo" class="form-control" />
+        <span asp-validation-for="Input.CreditCardNo" class="text-danger"></span>
+    </div>
+    <!-- Mobile Number -->
+    <div class="form-group">
+        <label asp-for="Input.MobileNo"></label>
+        <input asp-for="Input.MobileNo" class="form-control" />
+        <span asp-validation-for="Input.MobileNo" class="text-danger"></span>
+    </div>
+    <!-- Billing Address -->
+    <div class="form-group">
+        <label asp-for="Input.BillingAddress"></label>
+        <input asp-for="Input.BillingAddress" class="form-control" />
+        <span asp-validation-for="Input.BillingAddress" class="text-danger"></span>
+    </div>
+    <!-- Shipping Address -->
+    <div class="form-group">
+        <label asp-for="Input.ShippingAddress"></label>
+        <textarea asp-for="Input.ShippingAddress" class="form-control"></textarea>
+        <span asp-validation-for="Input.ShippingAddress" class="text-danger"></span>
+    </div>
+    <!-- Email -->
+    <div class="form-group">
+        <label asp-for="Input.Email"></label>
+        <input asp-for="Input.Email" class="form-control" />
+        <span asp-validation-for="Input.Email" class="text-danger"></span>
+    </div>
+    <!-- Password -->
+    <div class="form-group">
+        <label asp-for="Input.Password"></label>
+        <input asp-for="Input.Password" class="form-control" id="passwordInput"/>
+        <span asp-validation-for="Input.Password" class="text-danger"></span>
+        <div id="passwordStrength" style="margin-top: 5px;"></div>
+    </div>
+    <!-- Confirm Password -->
+    <div class="form-group">
+        <label asp-for="Input.ConfirmPassword"></label>
+        <input asp-for="Input.ConfirmPassword" class="form-control" />
+        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+    </div>
+    <!-- Photo Upload (.JPG only) -->
+    <div class="form-group">
+        <label asp-for="Input.Photo"></label>
+        <input asp-for="Input.Photo" type="file" class="form-control" accept=".jpg" />
+        <span asp-validation-for="Input.Photo" class="text-danger"></span>
+    </div>
+    <!-- Hidden reCAPTCHA token -->
+    <input type="hidden" id="RecaptchaToken" name="Input.RecaptchaToken" />
+
+    <button type="submit" class="btn btn-primary">Register</button>
+</form>
+
+@section Scripts {
+    <script src="https://www.google.com/recaptcha/api.js?render=@Model.SiteKey"></script>
+    <script>
+        grecaptcha.ready(function () {
+            grecaptcha.execute('@Model.SiteKey', { action: 'register' }).then(function (token) {
+                document.getElementById('RecaptchaToken').value = token;
+            });
+        });
+
+
+    </script>
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Wait until the DOM is loaded.
+        document.addEventListener("DOMContentLoaded", function () {
+            var passwordInput = document.getElementById('passwordInput');
+            var strengthIndicator = document.getElementById('passwordStrength');
+
+            passwordInput.addEventListener('input', function () {
+                var password = this.value;
+                var strengthText = "";
+                var strengthClass = "";
+                var score = 0;
+
+                // Increase score for various criteria.
+                if (password.length >= 12) score++;
+                if (/[a-z]/.test(password)) score++;
+                if (/[A-Z]/.test(password)) score++;
+                if (/[0-9]/.test(password)) score++;
+                if (/[\W_]/.test(password)) score++;
+
+                // Determine strength based on the score.
+                if (score <= 2) {
+                    strengthText = "Weak";
+                    strengthClass = "text-danger";
+                } else if (score <= 4) {
+                    strengthText = "Medium";
+                    strengthClass = "text-warning";
+                } else {
+                    strengthText = "Strong";
+                    strengthClass = "text-success";
+                }
+
+                // Update the indicator element.
+                if (strengthIndicator) {
+                    strengthIndicator.textContent = "Strength: " + strengthText;
+                    strengthIndicator.className = strengthClass;
+                }
+            });
+        });
+    </script>
+}

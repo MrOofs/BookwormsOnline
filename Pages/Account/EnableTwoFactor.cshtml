@@ -1,0 +1,16 @@
+﻿@page
+@model BookwormsOnline.Pages.EnableTwoFactorModel
+@{
+    ViewData["Title"] = "Enable Two-Factor Authentication";
+}
+<h2>Enable Two-Factor Authentication</h2>
+@if (Model.IsEnabled)
+{
+    <p>Two-factor authentication is currently enabled on your account.</p>
+}
+else
+{
+    <form method="post">
+        <button type="submit" class="btn btn-primary">Enable 2FA via Email</button>
+    </form>
+}
